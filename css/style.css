@@ -1,0 +1,42 @@
+@font-face {
+  url("/foundation/fonts/social_foundicons.eot")
+}
+ 
+[class*="foundicon-"] {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: inherit;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+ 
+[class*="foundicon-"]:before {
+  font-family: "[set]Foundicons";
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+}
+
+#logo {
+  width:115px;
+}
+
+footer {
+  padding-top:15px;
+  font-size: x-small;
+  color:white;
+  margin-top: 250px;
+  background-color: #0096D2;
+  height:250px;
+  position:fixed;
+  width:100%;
+  bottom:0px;
+}
+
+footer a, footer a:active, footer a:visited, footer a:hover {
+  color:white;
+  text-decoration: underline;
+}
