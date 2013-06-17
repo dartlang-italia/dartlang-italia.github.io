@@ -9,7 +9,7 @@ title: Collaboratori
 
 <a href="mailto:michiamophil@gmail.com">Filippo Bedendo Bordon</a>
 
-[Giulia Caruso](http://twitter.com/Thanatos707)
+[Giulia Caruso](http://akanekuroda.altervista.org/)
 
 [Biagio Chirico](https://plus.google.com/104165386158458837286/posts)
 
