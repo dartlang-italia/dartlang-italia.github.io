@@ -2,6 +2,6 @@ name: Dartlang Italia
 description: Sito della community italiana dedicata al linguaggio Dart
 url: http://www.dartlang-italia.it
 source: .
-destination: ../build
+destination: ./_site
 markdown: kramdown
 excerpt_separator: "<!--more-->"
