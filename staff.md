@@ -1,9 +1,9 @@
 ---
 layout: default
-title: Collaboratori
+title: Staff
 ---
 
-# Collaboratori
+# Staff
 
 [Fabio Benedetti](https://plus.google.com/114111013415938067238/posts)
 
@@ -16,6 +16,8 @@ title: Collaboratori
 [Gianluca Di Fonzo](it.linkedin.com/pub/gianluca-di-fonzo/3b/b17/113)
 
 [Claudio d'Angelis](http://claudiodangelis.com/about) 
+
+[Luca Mezzalira](https://plus.google.com/117628715051398337711/posts)
 
 <a href="mailto:l.micco@tiscali.it">Luigi Micco</a>
 
