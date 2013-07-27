@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dartlang Italia</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31520550-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner ">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="/">Dart Developers Italia</a></li>
+                    <li><a href="/doc.html">Panoramica del linguaggio</a></li>
+                    <li><a href="/articoli.html">Articoli e tutorial</a></li>
+                    <li><a href="/risorse.html">Risorse esterne</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a href="/news.html">Archivio News</a></li>
+                    <li><a href="/lab.html">Dart Developers Italia Lab</a></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Contatti<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://plus.google.com/b/102709061618541057184/102709061618541057184/posts"><i class="icon-google-plus icon-fixed-width"></i> Google+</a></li>
+                            <li><a href="https://www.facebook.com/DartlangItalia"><i class="icon-twitter icon-fixed-width"></i> Twitter</a></li>
+                            <li><a href="https://www.facebook.com/DartlangItalia"><i class="icon-facebook icon-fixed-width "></i> Facebook</a></li>
+                            <li><a href="mailto:&#100;&#097;&#114;&#116;&#108;&#097;&#110;&#103;&#046;&#105;&#116;&#097;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;"><i class="icon-envelope-alt icon-fixed-width"></i> Email</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/staff.html">Lo staff</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main">
+<div class="container">
+
+<h1>Usare API basate su Future</h1>
+
+<em>articolo originale: <a href="page.urloriginale">Using Future Based APIs</a> di Shailen Tuli</em> <br />
+<em>traduzione di <a href="http://claudiodangelis.com/about">Claudio d'Angelis</a></em></p>
+
+
+<p><em>Articolo originale: <a href="http://www.dartlang.org/articles/using-future-based-apis/">Using Future Based APIs</a></em></p>
+
+<h2 id="introduzione">Introduzione</h2>
+
+<p>Dart è un linguaggio <em>single-threaded</em>. Se una determinata funzione blocca il <em>thread</em> dell’esecuzione, il programma si ferma. Diamo uno sguardo ad un esempio concreto:</p>
+
+<pre><code>import 'dart:io';
+
+void stampaLeNotizieDelGiorno() {
+  File file = new File("notizieDelGiorno.txt");
+  print(file.readAsStringSync());
+}
+
+void main() {
+  stampaLeNotizieDelGiorno();
+  stampaNumeriDellaLotteria();
+  stampaPrevisioniDelTempo();
+  stampaRisultatiBaseball();
+}
+</code></pre>
+
+<p>Il nostro programma legge le notizie del giorno da un file, <code>notizieDelGiorno.txt</code>, le stampa, e successivamente stampa una serie di altri elementi di interesse per l’utente:</p>
+
+<pre><code>&lt;Contenuto di notizieDelGiorno.txt&gt;
+Numeri vincenti del lotto: [23, 63, 87, 26, 2]
+Previsioni per domani: 21C, soleggiato.
+Risultati del Baseball: Red Sox 10, Yankees 0
+</code></pre>
+
+<p>Il nostro codice è problematico: siccome <code>readAsStringSync()</code> blocca, il codice restante viene eseguito solo quando readAsStringSync()` restituisce i contenuti del file, <em>however long that takes</em>. Quindi se la lettura del file impiega molto tempo, l’utente aspetta passivamente, chiedendosi se abbia vinto la lotteria, o come sarà il tempo per domani o chi abbia vinto la partita. E non va bene.</p>
+
+<p>Per garantire che l’applicazione sia <em>reattiva</em>, gli autori di Dart utilizzano un modello asincrono per definire funzioni possono impiegare molto tempo. Tali funzioni restituiscono il proprio valore usando un oggetto <strong>Future</strong>.</p>
+
+<h2 id="cos-un-oggetto-future">Cos’è un oggetto <em>Future</em>?</h2>
+
+<p>Un Future rappresenta un’indicazione per ottenere un valore che sarà disponibile in futuro. Quando una funzione che restituisce un Future viene invocata, accadono due cose:</p>
+
+<ol>
+  <li>La funzione accoda il lavoro da fare e restituisce immediatamente un oggetto Future <em>incompleto</em>.</li>
+  <li>Successivamente, quando il valore diventa disponibile, il Future <em>si completa</em> con quel valore (oppure con un errore, come discuteremo successivamente).</li>
+</ol>
+
+<p>Per ottenere il valore che un Future rappresenta, si usa il metodo <code>then()</code> per registrare una funzione di <em>callback</em>. Questa callback si attiva quando il Future è completo.</p>
+
+<h2 id="usare-un-future">Usare un Future</h2>
+
+<p>Riscriviamo <code>stampaLeNotizieDelGiorno()</code> per ottenere il contenuto in modo asincrono:</p>
+
+<pre><code>import 'dart:io';
+import 'dart:async';
+
+void stampaLeNotizieDelGiorno() {
+  File file = new File("notizieDelGiorno.txt");
+  Future future = file.readAsString();
+  future.then((contenuto) {
+    print(contenuto);
+  });
+}
+</code></pre>
+
+<p>La funzione <code>stampaLeNotizieDelGiorno()</code> ora usa <code>readAsString()</code>, che non è <em>bloccante</em>. La chiamata di <code>readAsString()</code> accoda il lavoro da fare ma non interrompe l’esecuzione del codice restante. Il programma stampa i numeri della lotteria, il meteo e il punteggio del baseball; quando <code>readAsString()</code> completa la lettura del file con le notizie, il programma ne stampa il contenuto. Se <code>readAsString()</code> impiega un po’ di tempo per completare il lavoro, non succede niente di grave: l’utente nel frattempo legge le altre informazioni.</p>
+
+<pre><code>Numeri vincenti del lotto: [23, 63, 87, 26, 2]
+Previsioni per domani: 21C, soleggiato.
+Risultati del Baseball: Red Sox 10, Yankees 0
+&lt;Contenuto di notizieDelGiorno.txt&gt;
+</code></pre>
+
+<h2 id="sequenza-di-eventi-durante-lesecuzione-del-codice">Sequenza di eventi durante l’esecuzione del codice</h2>
+
+<p>Il codice precedente viene eseguito in tre fasi:</p>
+
+<ol>
+  <li>
+    <p>Il programma comincia con <code>main()</code>, che chiama <code>stampaLeNotizieDelGiorno()</code>, che accoda l’attività di lettura del file.
+ Dopo aver chiamato le funzioni rimanenti, <code>main()</code> termina, ma il programma resta in esecuzione.</p>
+  </li>
+  <li>
+    <p>Il lavoro programmato da <code>readAsString()</code> viene eseguito, e i contenuti del file vengono letti in memoria. Quando la lettura del file è completa, il Future si completa con i contenuti del file.</p>
+  </li>
+  <li>
+    <p>La funzione di callback registrata nel metodo <code>then()</code> si attiva e stampa i contenuti del file con le notizie del giorno.</p>
+  </li>
+</ol>
+
+<p>Chiamando <code>then()</code> si ottiene un nuovo Future, che si completa con il valore restituito dalla callback di <code>then()</code>. Questo significa che le chiamate a <code>then()</code> possono essere concatenate, come vedremo successivamente.</p>
+
+<h2 id="gestire-gli-errori-dei-futures">Gestire gli errori dei Futures</h2>
+
+<p>Se una funzione che restituisce un Future si completa con un errore, il Future restituito da <code>then()</code> si completa, a sua volta, con un errore. Possiamo catturare quell’errore usando <code>catchError()</code>:</p>
+
+<pre><code>void stampaLeNotizieDelGiorno() {
+  File file = new File("notizieDelGiorno.txt");
+  Future future = file.readAsString();
+  future.then((content) =&gt; faiQualcosaCon(contenuto))
+        .catchError((e) =&gt; gestisciErrore(e));
+}
+</code></pre>
+
+<p>Se <code>notizieDelGiorno.txt</code> non esiste oppure non è disponibile per la lettura, il codice precedente viene eseguito così:</p>
+
+<ol>
+  <li>Il Future di <code>readAsString()</code> si completa con un errore.</li>
+  <li>Il Future di <code>then()</code> si completa con un errore.</li>
+  <li>La funzione di callback di <code>catchError()</code> gestisce l’errore, il Future di <code>catchError()</code> si completa normalmente, e l’errore non si propaga.</li>
+</ol>
+
+<blockquote>
+  <p>Concatenare <code>catchError()</code> a <code>then()</code> è una pratica molto comune quando si lavora con i Futures. Consideriamo la coppia <code>then-catchError</code> come l’equivalente asincrono dei blocchi <code>try-catch</code>.</p>
+</blockquote>
+
+<p>Proprio come <code>then()</code>, <code>catchError()</code> restituisce un nuovo Future che si completa con il valore di ritorno della sua callback.</p>
+
+<h2 id="invocare-pi-funzioni-che-restituiscono-futures">Invocare più funzioni che restituiscono Futures</h2>
+
+<p>Consideriamo tre funzioni, <code>impegnativaA()</code>, <code>impegnativaB()</code> ed <code>impegnativaC()</code>, che restituiscono Futures. Queste funzioni possono essere invocate sequenzialmente (una funzione inizia quando la precedente si completa), oppure possono essere invocate contemporaneamente e si può fare qualcosa una volta che tutti i valori vengono restituiti. L’interfaccia di Future è fluida abbastanza da gestire entrambe le situazioni.</p>
+
+<h3 id="concatenare-le-chiamate-alle-funzioni-usando-then">Concatenare le chiamate alle funzioni usando then()</h3>
+
+<p>Quando le funzioni che restituiscono un Future devono essere eseguite in un certo ordine, usiamo le chiamate <code>then()</code> concatenate:</p>
+
+<p>impegnativaA().then((aValore) =&gt; impegnativaB()) 
+            .then((bValore) =&gt; impegnativaC()) 
+            .then((cValore) =&gt; faiQualcosaCon(cValore));</p>
+
+<p>Funzionano anche le callback <em>nidificate</em>, ma sono più difficili da leggere, quindi poco <em>Dart-y</em>.</p>
+
+<h3 id="aspettare-che-tutti-futures-si-completino-usando-futurewait">Aspettare che tutti Futures si completino usando Future.wait()</h3>
+
+<p>Se l’ordine dell’esecuzione non è importante, si può usare <code>Future.wait()</code> per gestire più di un oggetto Future senza dover esplicitamente concatenare le funzioni.</p>
+
+<p>Le funzioni vengono avviate in rapida successione; quando tutte sono complete con un valore, <code>Future.wait()</code> restituisce un nuovo Future. Questo Future si completa con una lista contenente i valori prodotti dalle diverse funzioni.</p>
+
+<pre><code>Future.wait([impegnativaA(), impegnativaB(), impegnativaC()])
+      .then((List responsi) =&gt; scegliResponsoMigliore(responsi))
+      .catchError((e) =&gt; gestisciErrore(e));
+</code></pre>
+
+<p>Se ogni funzione invocata si completa con un errore, il Future restituito da <code>Future.wait()</code> si completa a sua volta con un errore che può essere gestito con <code>catchError()</code></p>
+
+
+</div>
+</div> <!-- end #main -->
+<div id="separatore_footer"></div>
+<footer>
+    <div class="container">
+    <div class="row">
+        <div class="span6">
+            <p><strong>Dartlang Italia</strong> &egrave; una community di supporto <strong>non ufficiale</strong> e senza scopi di lucro, in nessun modo collegata al progetto <a href="http://dartlang.org">Google Dart</a>.</p>
+            <p>I contenuti del sito <a href="/">dartlang-italia.it</a> sono pubblicati dietro licenza <a href="http://creativecommons.org/licenses/by/3.0/deed.it">CC BY 3.0</a>, il codice di questo sito e gli esempi di codice Dart sono distribuiti dietro licenza <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>.</p>
+        </div>
+
+
+        <div class="span6">
+            <p>Questo sito &egrave; stato generato con <a href="http://jekyllrb.com">Jekyll</a> ed utilizza il framework <a href="twitter.github.com/bootstrap">Bootstrap</a>. Questo sito &egrave; <strong>open source</strong>, il codice sorgente &egrave; disponibile su <a href="https://github.com/dartlang-italia/dartlang-italia.github.io">Github</a>.</p>
+            <p>Le segnalazioni su incorrettezze o bug del sito possono essere inoltrate su <a href="https://github.com/dartlang-italia/dartlang-italia.github.io/issues">GitHub Issues</a>.</p>
+            <p>Vuoi diventare uno dei nostri <a href="/staff.html">collaboratori?</a> Mandaci <a href="mailto:&#100;&#097;&#114;&#116;&#108;&#097;&#110;&#103;&#046;&#105;&#116;&#097;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">un'email</a> o contattaci attraverso i <a href="/">social network</a>.</p>
+        <p>2012-2013, <a href="http://www.claudiodangelis.com/about">Claudio d'Angelis</a>, <strong>Dartlang Italia</strong></p>
+        </div>
+    </div>
+
+</div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

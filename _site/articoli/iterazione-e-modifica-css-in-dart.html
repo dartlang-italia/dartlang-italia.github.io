@@ -61,16 +61,69 @@
 </div>
 <div id="main">
 <div class="container">
-{% if page.url contains '/articoli/' %}
-<h1>{{ page.title }}</h1>
-{% if page.titolooriginale == nil %}
-<p><em>di <a href="{{site.staff[page.autore].url}}">{{page.autore}}</a></em> <br />
-{% else %}
-<em>articolo originale: <a href="page.urloriginale">{{page.titolooriginale}}</a> di {{page.autoreoriginale}}</em> <br />
-<em>traduzione di <a href="{{site.staff[page.autore].url}}">{{page.autore}}</a></em></p>
-{% endif %}
-{% endif %}
-{{ content }}
+
+<h1>Iterazione elementi e manipolazione CSS in Dart</h1>
+
+<p><em>di <a href="https://plus.google.com/117628715051398337711/posts">Luca Mezzalira</a></em> <br />
+
+
+<p>In questo tutorial andremo ad esplorare l’iterazione di elementi all’interno di una web application con Dart e come creare alcune animazioni con CSS3.</p>
+
+<p>Il risultato finale su cui ho lavorato è una galleria di immagini con layout responsive:</p>
+
+<p><img src="http://lucamezzalira.files.wordpress.com/2013/05/wp_20130523_005.jpg" alt="Galleria Immagini in Dart 1" /></p>
+
+<p><img src="http://lucamezzalira.files.wordpress.com/2013/05/wp_20130523_008.jpg" alt="Galleria Immagini in Dart 2" /></p>
+
+<h2 id="iterazione">Iterazione</h2>
+
+<p>Dart ci da diverse possibilità per iterare elementi all’interno dei nostri progetti:</p>
+
+<ul>
+  <li>tramite un ciclo for in Dart</li>
+  <li>con una delle numerose librerie per la gestione di HTML template (tipo underscorejs o mustachejs)</li>
+  <li>oppure un MIX tra la parte HTML e la parte scritta in Dart che è quella che prenderemo in esame ora.</li>
+</ul>
+
+<p>Nel mio esempio ho deciso di usare un HTML template, quindi dentro il tag <em>body</em> basta inserire un tag <em>template</em> che permetterà di iterare tutti i tag che sono al suo interno senza dover scrivere una riga di codice (per chi conosce AngluarJS questa sintassi sarà decisamente familiare)</p>
+
+<pre><code>&lt;div id="imageCont" class="wrap"&gt;
+  &lt;template iterate="data in results"&gt;
+    &lt;div class="image"&gt;
+      &lt;img id="img_" class="faded" src= width="320" height="240" on-click="onClick($event)" on-mouse-out="onOut($event)" on-mouse-over="onOver($event)" on-load="fadeIn($event)"/&gt;
+      &lt;img id="zoom_" src="images/zoom.png" class="zoom"/&gt;
+      &lt;h2&gt;&lt;span&gt;&lt;/span&gt;&lt;/h2&gt;
+     &lt;/div&gt;
+  &lt;/template&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Aggiungendo l’attributo <em>iterate</em> ad un oggetto vado a recuperare qual è il dataprovider del mio progetto (in questo caso results) e posso andarlo a iterare creando così tanti oggetti quanti sono gli elementi presenti nella mia lista.
+Posso inoltre recuperare le proprietà dei miei oggetti presenti nel dataprovider in questa maniera: <code>oppure</code> e inserire questi valori all’interno del mio template.</p>
+
+<p>Un’altra maniera è quella di usare i <a href="http://www.dartlang.org/articles/web-ui/#components">Web Components</a> come ben descritto in questo articolo presente nella guida in linea di Dart</p>
+
+<h2 id="modificare-css-con-dart">Modificare CSS con Dart</h2>
+
+<p>Un altro interessante argomento è come modificare, aggiungere o rimuovere gli stili CSS ad oggetti del DOM tramite Dart.
+Ogni elemento del DOM in Dart ha una proprietà chiamata <em>classes</em> che permette di aggiungere o eliminare stili CSS in maniera semplice e rapida:</p>
+
+<pre><code>var myDomObj = query("#idObject");
+myDomObj.classes.remove("class-to-remove");
+myDomObj.classes.add("class-to-add");
+</code></pre>
+
+<p>Oppure è possibile impostare ogni proprietà di stile direttamente tramite Dart:</p>
+
+<pre><code>var myDomObj = query("#idObject");
+myDomObj.style
+             ..color = "0xFFF"
+             ..fontSize = "15px";
+</code></pre>
+
+<p>Come potete vedere lavorare con gli stili CSS in Dart è veramente semplice, se volete vedere il progetto integrale potete <a href="http://www.flairpy.com/dart/imageGallery.zip">scaricarlo da qua</a>.</p>
+
+
 </div>
 </div> <!-- end #main -->
 <div id="separatore_footer"></div>

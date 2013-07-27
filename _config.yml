@@ -3,5 +3,28 @@ description: Sito della community italiana dedicata al linguaggio Dart
 url: http://www.dartlang-italia.it
 source: .
 destination: ./_site
+permalink: /:year/:month/:day/:title/
 markdown: kramdown
 excerpt_separator: "<!--more-->"
+staff:
+    Fabio Benedetti: 
+        bio: 
+        url: https://plus.google.com/114111013415938067238/posts
+    Filippo Bedendo Bordon:
+        bio:
+        url: mailto:michiamophil@gmail.com
+    Giulia Caruso: 
+        bio: 
+        url: http://akanekuroda.altervista.org
+    Biagio Chirico: 
+        bio:
+        url: https://plus.google.com/104165386158458837286/posts
+    Gianluca Di Fonzo: 
+        bio:
+        url: http://it.linkedin.com/pub/gianluca-di-fonzo/3b/b17/113
+    Luca Mezzalira:
+        bio:
+        url: https://plus.google.com/117628715051398337711/posts
+    Claudio d'Angelis:
+        bio:
+        url: http://claudiodangelis.com/about

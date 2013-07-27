@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dartlang Italia</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css"> 
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31520550-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<div class="navbar navbar-fixed-top navbar-inverse">
+    <div class="navbar-inner ">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="/">Dart Developers Italia</a></li>
+                    <li><a href="/doc.html">Panoramica del linguaggio</a></li>
+                    <li><a href="/articoli.html">Articoli e tutorial</a></li>
+                    <li><a href="/risorse.html">Risorse esterne</a></li>
+                </ul>
+                <ul class="nav pull-right">
+                    <li><a href="/news.html">Archivio News</a></li>
+                    <li><a href="/lab.html">Dart Developers Italia Lab</a></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Contatti<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="https://plus.google.com/b/102709061618541057184/102709061618541057184/posts"><i class="icon-google-plus icon-fixed-width"></i> Google+</a></li>
+                            <li><a href="https://www.facebook.com/DartlangItalia"><i class="icon-twitter icon-fixed-width"></i> Twitter</a></li>
+                            <li><a href="https://www.facebook.com/DartlangItalia"><i class="icon-facebook icon-fixed-width "></i> Facebook</a></li>
+                            <li><a href="mailto:&#100;&#097;&#114;&#116;&#108;&#097;&#110;&#103;&#046;&#105;&#116;&#097;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;"><i class="icon-envelope-alt icon-fixed-width"></i> Email</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/staff.html">Lo staff</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="main">
+<div class="container">
+
+<h1>Isolates&#58; lavorare con il multithreading in Dart</h1>
+
+<p><em>di <a href="https://plus.google.com/117628715051398337711/posts">Luca Mezzalira</a></em> <br />
+
+
+<p>Gli <strong>Isolates</strong> sono la maniera in cui Dart lavora con il multithreading, ma prima di iniziare ad andare più nel dettaglio cerchiamo di capire cos’è e cosa significa lavorare con il multithreading</p>
+
+<h2 id="multithreading">Multithreading</h2>
+
+<p>Ho trovato questa definizione che reputo decisamente valida: <em>In informatica il multithreading indica il supporto hardware da parte di un processore di eseguire più thread. Questa tecnica si distingue da quella alla base dei sistemi multiprocessore per il fatto che i singoli thread condividono lo stesso spazio d’indirizzamento, la stessa cache e lo stesso translation lookaside buffer.
+Il multithreading migliora le prestazioni dei programmi solamente quando questi sono stati sviluppati suddividendo il carico di lavoro su più thread che possono essere eseguiti in apparenza in parallelo. Mentre i sistemi multiprocessore sono dotati di più unità di calcolo indipendenti per le quali l’esecuzione è effettivamente parallela, un sistema multithread invece è dotato di una singola unità di calcolo che si cerca di utilizzare al meglio eseguendo più thread nella stessa unità di calcolo. Le due tecniche sono complementari: a volte i sistemi multiprocessore implementano anche il multithreading per migliorare le prestazioni complessive del sistema.</em> (<a href="http://it.wikipedia.org/wiki/Multithreading">wikipedia</a>)</p>
+
+<h2 id="quando-usare-i-tread">Quando usare i tread?</h2>
+
+<p>I tread vengono usati ogni qualvolta bisogna fare un’operazione particolarmente intensiva come per esempio aprire il contenuto di un file zip a runtime oppure elaborare grosse mole di dati, insomma in tutte quelle situazione che richiedono calcolo intenso e non vogliamo far frezzare l’interfaccia che sta utilizzando l’utente.</p>
+
+<h2 id="dart-e-gli-isolates">Dart e gli Isolates</h2>
+
+<p>Prima di iniziare a vedere il codice ho preparato un diagramma che spiega in maniera logica come operano gli Isolate in Dart:</p>
+
+<p><img src="http://lucamezzalira.files.wordpress.com/2013/06/mockup.png" alt="Isolates in Dart" /></p>
+
+<p>Quando si lavora con gli Isolates si hanno sempre dei sender e dei receiver, questo è molto importante da capire perchè questi due “attori” possono operare insieme per creare più thread.
+Di default Dart quando lancia un’applicazione viene lanciato il primo Isolate denominato Main Isolate, da questo possiamo lanciare nuovi processi e operazioni intensive direttamente con queste semplici righe di codice:</p>
+
+<pre><code>port.receive((data, SendPort replyTo){
+  replyTo.send("something");
+});
+</code></pre>
+
+<p>Una delle cose più importanti da ricordarsi quando si lavora con gli Isolate è che se stiamo attendendo un dato da un altro Isolate bisogna mettere in ascolto il Main Isolate istanziando il receiver presente in ogni Dart application, in questo modo il programma attenderà che gli altri Isolate facciano il lavoro “sporco” per poi passare i risultati al Main Isolate, altrimenti il programma terminerebbe senza aspettare alcun dato e quindi l’utilizzo degli altri Isolate sarebbe vano.</p>
+
+<p>Ho creato un piccolo esempio che potete vedere direttamente su <a href="http://youtu.be/2ljB4069ais">youtube</a></p>
+
+<p>L’esempio è basato sugli Isolate e sostanzialmente ho creato 2 link che lanciano la stessa routine ma in maniera diversa ovvero il link con scritto <em>MONO</em> lancerà un paio di cicli for con molti elementi da iterare e li lancerà uno di seguito all’altro bloccando di conseguenza la riproduzione dell’animazione CSS creata ad hoc per far vedere il freeze dell’interfaccia, mentre se clicchiamo su <em>ISOLATE</em> lanceremo 2 Isolate che eseguiranno i 2 cicli for in parallelo con conseguente recupero di tempo e soprattutto senza bloccare l’esecuzione del Main Isolate.</p>
+
+<p>Per lanciare un Isolate in Dart basterà scrivere:</p>
+
+<pre><code>var isolate = spawnFunction(bigForCycle);
+isolate.send("data", port.toSendPort());
+</code></pre>
+
+<p>Dopodiche nella funzione bigForCycle possiamo elaborare quello che vogliamo avendo la certezza di lavorare all’interno di un nuovo Isolate:</p>
+
+<pre><code>void bigForCycle(){
+  port.receive((data, SendPort replyTo){
+    var count;
+    for(var i = 0; i &lt; FINAL_AMOUNT; i++){
+      count = i;
+    }
+    replyTo.send(count);
+  });
+}
+</code></pre>
+
+<p>Infine ricordiamoci sempre di chiudere gli Isolate creati una volta che ci han risposto in modo da ottimizzare le performance del nostro progetto:</p>
+
+<pre><code>port.receive((data, SendPort replyTo){
+  counterIsolate++;
+  end = new DateTime.now();
+  if(counterIsolate == 2){
+    var finalTime = end.difference(start).toString();
+    myH1.appendHtml("isolate total time: &lt;b&gt;$finalTime&lt;/b&gt;&lt;br/&gt;");
+    // if you want to close isolates you have to use the line below
+    port.close();
+  }
+});
+</code></pre>
+
+<p>Ci sono altri modi di lavorare con gli Isolate, nel mio caso ho lavorato con Isolate interni alla Main Class ma possiamo anche lavorare con Isolate in file differenti come spiegato nel <a href="http://blog.sethladd.com/2013/04/dynamically-load-code-with-dart.html">post di Seth Ladd</a>.</p>
+
+<p>Potete trovare i sorgenti dell’esempio direttamente a questo <a href="https://github.com/lucamezzalira/Dart-Samples/">link</a>.</p>
+
+</div>
+</div> <!-- end #main -->
+<div id="separatore_footer"></div>
+<footer>
+    <div class="container">
+    <div class="row">
+        <div class="span6">
+            <p><strong>Dartlang Italia</strong> &egrave; una community di supporto <strong>non ufficiale</strong> e senza scopi di lucro, in nessun modo collegata al progetto <a href="http://dartlang.org">Google Dart</a>.</p>
+            <p>I contenuti del sito <a href="/">dartlang-italia.it</a> sono pubblicati dietro licenza <a href="http://creativecommons.org/licenses/by/3.0/deed.it">CC BY 3.0</a>, il codice di questo sito e gli esempi di codice Dart sono distribuiti dietro licenza <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a>.</p>
+        </div>
+
+
+        <div class="span6">
+            <p>Questo sito &egrave; stato generato con <a href="http://jekyllrb.com">Jekyll</a> ed utilizza il framework <a href="twitter.github.com/bootstrap">Bootstrap</a>. Questo sito &egrave; <strong>open source</strong>, il codice sorgente &egrave; disponibile su <a href="https://github.com/dartlang-italia/dartlang-italia.github.io">Github</a>.</p>
+            <p>Le segnalazioni su incorrettezze o bug del sito possono essere inoltrate su <a href="https://github.com/dartlang-italia/dartlang-italia.github.io/issues">GitHub Issues</a>.</p>
+            <p>Vuoi diventare uno dei nostri <a href="/staff.html">collaboratori?</a> Mandaci <a href="mailto:&#100;&#097;&#114;&#116;&#108;&#097;&#110;&#103;&#046;&#105;&#116;&#097;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">un'email</a> o contattaci attraverso i <a href="/">social network</a>.</p>
+        <p>2012-2013, <a href="http://www.claudiodangelis.com/about">Claudio d'Angelis</a>, <strong>Dartlang Italia</strong></p>
+        </div>
+    </div>
+
+</div>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

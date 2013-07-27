@@ -3,22 +3,26 @@ layout: default
 title: Staff
 ---
 
-# Staff
 
-[Fabio Benedetti](https://plus.google.com/114111013415938067238/posts)
 
-<a href="mailto:michiamophil@gmail.com">Filippo Bedendo Bordon</a>
+<div class="row"><div class="span6"><h1 id="staff">Staff</h1>
+<p><a href="https://plus.google.com/114111013415938067238/posts">Fabio Benedetti</a></p>
+<p><a href="mailto:michiamophil@gmail.com">Filippo Bedendo Bordon</a></p>
+<p><a href="http://akanekuroda.altervista.org/">Giulia Caruso</a></p>
+<p><a href="https://plus.google.com/104165386158458837286/posts">Biagio Chirico</a></p>
+<p><a href="it.linkedin.com/pub/gianluca-di-fonzo/3b/b17/113">Gianluca Di Fonzo</a></p>
+<p><a href="http://claudiodangelis.com/about">Claudio d’Angelis</a> </p>
+<p><a href="https://plus.google.com/117628715051398337711/posts">Luca Mezzalira</a></p>
+<p><a href="mailto:l.micco@tiscali.it">Luigi Micco</a></p>
+<p><em>…tu?</em> <a href="mailto:dartlang.ita@gmail.com">Scrivici!</a></p>
+</div>
 
-[Giulia Caruso](http://akanekuroda.altervista.org/)
+<div class="span6">
+    <h1>Contatti</h1>
+    <p><a href="http://twitter.com/dartlang_italia">Twitter</a></p>
+    <p><a href="https://plus.google.com/b/102709061618541057184/102709061618541057184/posts">Google+</a></p>
+    <p><a href="https://www.facebook.com/DartlangItalia">Facebook</a></p>
+    <p><a href="https://github.com/dartlang-italia">Github</a></p>
+    <p><a href="mailto:dartlang.ita@gmail.com">Gmail</a></p>
 
-[Biagio Chirico](https://plus.google.com/104165386158458837286/posts)
-
-[Gianluca Di Fonzo](it.linkedin.com/pub/gianluca-di-fonzo/3b/b17/113)
-
-[Claudio d'Angelis](http://claudiodangelis.com/about) 
-
-[Luca Mezzalira](https://plus.google.com/117628715051398337711/posts)
-
-<a href="mailto:l.micco@tiscali.it">Luigi Micco</a>
-
-_...tu?_
+</div></div>
