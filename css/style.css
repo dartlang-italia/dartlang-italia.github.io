@@ -71,6 +71,12 @@ footer a, footer a:active, footer a:visited, footer a:hover {
     }
 }
 
+@media (max-width: 1147px) {
+  #main {
+    padding:50px;
+  }
+}
+
 .clear {
   clear:both;
 }
