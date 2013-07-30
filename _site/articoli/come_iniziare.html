@@ -67,10 +67,64 @@
 <div id="main">
 <div class="container">
 
-<h3 id="archivio-news">Archivio News</h3>
+<h1>Come iniziare a programmare in Dart</h1>
 
-<h3 id="apertura-sito20130730apertura-sito"><a href="/2013/07/30/apertura-sito/">Apertura sito</a></h3>
-<p><em>Pubblicato in data 30/07/2013</em></p>
+<p><em>di <a href="http://claudiodangelis.com/about">Claudio d'Angelis</a></em> <br />
+
+
+<p>In questo articolo vedremo come iniziare a programmare in Dart
+utilizzando lo strumento di sviluppo principale, ovvero <strong>Dart Editor</strong>.</p>
+
+<p><strong>Dart Editor</strong>, un <em>fork</em> di <a href="http://eclipse.org">Eclipse</a> è un tool molto potente dotato di caratteristiche comuni
+a molti altri ad altri <em>IDE</em>, come ad esempio il completamento automatico (basato sulla documentazione dell’API),
+l’abilità di suggerire dei <em>quick fix</em> nel caso in cui il codice contenga errori,
+e l’integrazione con gli altri tool del <em>Software Development Kit</em> di Dart.</p>
+
+<p>Innanzitutto scarichiamo l’editor dal sito ufficiale all’indirizzo
+<a href="http://www.dartlang.org/tools/editor/">http://www.dartlang.org/tools/editor/</a>; il pacchetto include:</p>
+
+<ul>
+  <li><strong>DartEditor</strong></li>
+  <li><strong>dart</strong>, la macchina virtuale</li>
+  <li><strong>Dartium</strong>, un <em>fork</em> di Chromium che incorpora la macchina virtuale</li>
+  <li><strong>dart2js</strong>, il compilatore Javascript</li>
+  <li><strong>pub</strong>, il gestore di pacchetti</li>
+  <li><strong>dartanalyzer</strong>, tool per l’analisi della correttezza del codice</li>
+  <li><strong>dartdoc</strong>, tool per l’autogenerazione della documentazione di un progetto</li>
+</ul>
+
+<p>Avviamo l’editor e scegliamo di creare una nuova applicazione, <strong>File -&gt; New Application</strong>:</p>
+
+<p><img src="/img/posts/darteditor_nuovaapplicazione.png" alt="Screenshot" /></p>
+
+<p>Come vedete nello screenshot, l’editor offre la possibilità di generare
+del <strong>codice di esempio</strong> per 4 tipi di applicazione:</p>
+
+<ul>
+  <li><strong>Chrome packaged application</strong>, una web app che è eseguita all’interno del browser Google Chrome e che può utilizzare <a href="https://developer.chrome.com/extensions/api_index.html">le API chrome.*</a>.</li>
+  <li><strong>Command-line application</strong>, applicazione da riga di comando (e.g. un web server, uno script, etc)</li>
+  <li><strong>Web application</strong>, una classica web application</li>
+  <li><strong>Web application (using the web_ui library)</strong>, una web application che utilizza la libreria <strong>web_ui</strong> che definisce funzioni per la gestione, fra le altre, di <strong>Web Components</strong> e <strong>Model-driven Views</strong></li>
+</ul>
+
+<p>Scegliamo di generare il codice di esempio per <strong>Web Application</strong>:</p>
+
+<p><img src="/img/posts/darteditor_codicediesempio.png" alt="Screenshot" /></p>
+
+<p>L’editor ha generato una semplice web app di esempio che mostra una casella di testo che all’evento <em>onClick</em>
+inverte i caratteri che compongono la stringa di testo contenuta.</p>
+
+<p>Per avviare l’applicazione utilizziamo il comando <strong>Run -&gt; Run</strong>, o in alternativa diamo <strong>CTRL</strong> (o CMD) + <strong>R</strong>.</p>
+
+<p><img src="/img/posts/darteditor_webappesempio.png" alt="Screenshot" /></p>
+
+<p>L’applicazione è stata eseguita in <strong>Dartium</strong> e utilizza il codice Dart nativo. Per provare questa applicazione in un qualsiasi
+browser non dobbiamo fare altro che <strong>compilare</strong> l’applicazione in Javascript; per fare questo andiamo, dall’editor, su
+<strong>Tools -&gt; Generate Javascript</strong>.</p>
+
+<p>Come avete visto, muovere i primi passi in Dart è semplicissimo e ci vogliono solo pochi minuti per essere operativi.<br />
+Consultate la <a href="/doc.html">Panoramica del linguaggio</a> per avere una panoramica
+sui tipi di dato, sulla struttura di un’applicazione e sulle altre caratteristiche di Dart.</p>
 
 </div>
 </div> <!-- end #main -->

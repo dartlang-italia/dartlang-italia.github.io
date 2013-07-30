@@ -32,7 +32,7 @@ applicazioni in Dart:
 
 `// Questo è un commento`
 
-`num`: un tipo di dat. Altri tipi di dato disponibili sono _String, int_ e _bool_.
+`num`: un tipo di dato. Altri tipi di dato disponibili sono _String, int_ e _bool_.
 
 `42`: un numero nella forma letterale
 

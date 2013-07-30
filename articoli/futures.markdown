@@ -8,9 +8,6 @@ titolooriginale: Using Future Based APIs
 urloriginale: http://www.dartlang.org/articles/using-future-based-apis/
 ---
 
-_Articolo originale: [Using Future Based APIs](http://www.dartlang.org/articles/using-future-based-apis/)_
-
-
 ## Introduzione
 
 Dart è un linguaggio _single-threaded_. Se una determinata funzione blocca il _thread_ dell'esecuzione, il programma si ferma. Diamo uno sguardo ad un esempio concreto:

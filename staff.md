@@ -23,6 +23,6 @@ title: Staff
     <p><a href="https://plus.google.com/b/102709061618541057184/102709061618541057184/posts">Google+</a></p>
     <p><a href="https://www.facebook.com/DartlangItalia">Facebook</a></p>
     <p><a href="https://github.com/dartlang-italia">Github</a></p>
-    <p><a href="mailto:dartlang.ita@gmail.com">Gmail</a></p>
+    <p><a href="mailto:dartlang.ita@gmail.com">Email</a></p>
 
 </div></div>

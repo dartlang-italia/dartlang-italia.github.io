@@ -56,8 +56,6 @@ footer {
   margin-top: 20px;
 }
 
-
-
 footer a, footer a:active, footer a:visited, footer a:hover {
   color:white;
   text-decoration: underline;
@@ -71,4 +69,12 @@ footer a, footer a:active, footer a:visited, footer a:hover {
         margin-right: 10px;
         margin-left: 10px;
     }
+}
+
+.clear {
+  clear:both;
+}
+
+a.titolo_news {
+  color: black;
 }
