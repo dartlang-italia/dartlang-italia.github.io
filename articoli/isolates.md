@@ -13,10 +13,10 @@ Multithreading
 Ho trovato questa definizione che reputo decisamente valida: _In informatica il multithreading indica il supporto hardware da parte di un processore di eseguire più thread. Questa tecnica si distingue da quella alla base dei sistemi multiprocessore per il fatto che i singoli thread condividono lo stesso spazio d'indirizzamento, la stessa cache e lo stesso translation lookaside buffer.
 Il multithreading migliora le prestazioni dei programmi solamente quando questi sono stati sviluppati suddividendo il carico di lavoro su più thread che possono essere eseguiti in apparenza in parallelo. Mentre i sistemi multiprocessore sono dotati di più unità di calcolo indipendenti per le quali l'esecuzione è effettivamente parallela, un sistema multithread invece è dotato di una singola unità di calcolo che si cerca di utilizzare al meglio eseguendo più thread nella stessa unità di calcolo. Le due tecniche sono complementari: a volte i sistemi multiprocessore implementano anche il multithreading per migliorare le prestazioni complessive del sistema._ ([wikipedia](http://it.wikipedia.org/wiki/Multithreading))
 
-Quando usare i tread?
+Quando usare i thread?
 ---------------------
 
-I tread vengono usati ogni qualvolta bisogna fare un'operazione particolarmente intensiva come per esempio aprire il contenuto di un file zip a runtime oppure elaborare grosse mole di dati, insomma in tutte quelle situazione che richiedono calcolo intenso e non vogliamo far frezzare l'interfaccia che sta utilizzando l'utente.
+I thread vengono usati ogni qualvolta bisogna fare un'operazione particolarmente intensiva come per esempio aprire il contenuto di un file zip a runtime oppure elaborare grosse mole di dati, insomma in tutte quelle situazione che richiedono calcolo intenso e non vogliamo far frezzare l'interfaccia che sta utilizzando l'utente.
 
 Dart e gli Isolates
 -------------------
