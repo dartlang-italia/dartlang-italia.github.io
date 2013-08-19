@@ -11,8 +11,8 @@ urloriginale:
 In questo articolo vedremo come iniziare a programmare in Dart
 utilizzando lo strumento di sviluppo principale, ovvero **Dart Editor**.
 
-**Dart Editor**, un _fork_ di [Eclipse](http://eclipse.org) è un tool molto potente dotato di caratteristiche comuni
-a molti altri ad altri _IDE_, come ad esempio il completamento automatico (basato sulla documentazione dell'API),
+**Dart Editor**, un _fork_ di [Eclipse](http://eclipse.org), è un tool molto potente dotato di caratteristiche comuni
+a molti altri ad altri _IDE_ come ad esempio il completamento automatico (basato sulla documentazione dell'API),
 l'abilità di suggerire dei _quick fix_ nel caso in cui il codice contenga errori,
 e l'integrazione con gli altri tool del _Software Development Kit_ di Dart.
 
