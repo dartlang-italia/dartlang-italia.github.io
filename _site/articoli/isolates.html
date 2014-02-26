@@ -47,6 +47,7 @@
                     <li><a href="/feed.xml"><img src="/img/rss.png"/></a></li>
                 </ul>
                 <ul class="nav pull-right">
+                    <li><a href="/faq.html">FAQ</a></li>
                     <li><a href="/news.html">Archivio News</a></li>
                     <!--<li><a href="/lab.html">Dart Developers Italia Lab</a></li>-->
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Contatti<b class="caret"></b></a>
@@ -79,9 +80,9 @@
 <p>Ho trovato questa definizione che reputo decisamente valida: <em>In informatica il multithreading indica il supporto hardware da parte di un processore di eseguire più thread. Questa tecnica si distingue da quella alla base dei sistemi multiprocessore per il fatto che i singoli thread condividono lo stesso spazio d’indirizzamento, la stessa cache e lo stesso translation lookaside buffer.
 Il multithreading migliora le prestazioni dei programmi solamente quando questi sono stati sviluppati suddividendo il carico di lavoro su più thread che possono essere eseguiti in apparenza in parallelo. Mentre i sistemi multiprocessore sono dotati di più unità di calcolo indipendenti per le quali l’esecuzione è effettivamente parallela, un sistema multithread invece è dotato di una singola unità di calcolo che si cerca di utilizzare al meglio eseguendo più thread nella stessa unità di calcolo. Le due tecniche sono complementari: a volte i sistemi multiprocessore implementano anche il multithreading per migliorare le prestazioni complessive del sistema.</em> (<a href="http://it.wikipedia.org/wiki/Multithreading">wikipedia</a>)</p>
 
-<h2 id="quando-usare-i-tread">Quando usare i tread?</h2>
+<h2 id="quando-usare-i-thread">Quando usare i thread?</h2>
 
-<p>I tread vengono usati ogni qualvolta bisogna fare un’operazione particolarmente intensiva come per esempio aprire il contenuto di un file zip a runtime oppure elaborare grosse mole di dati, insomma in tutte quelle situazione che richiedono calcolo intenso e non vogliamo far frezzare l’interfaccia che sta utilizzando l’utente.</p>
+<p>I thread vengono usati ogni qualvolta bisogna fare un’operazione particolarmente intensiva come per esempio aprire il contenuto di un file zip a runtime oppure elaborare grosse mole di dati, insomma in tutte quelle situazione che richiedono calcolo intenso e non vogliamo far frezzare l’interfaccia che sta utilizzando l’utente.</p>
 
 <h2 id="dart-e-gli-isolates">Dart e gli Isolates</h2>
 
@@ -154,7 +155,6 @@ isolate.send("data", port.toSendPort());
             <p>Questo sito &egrave; stato generato con <a href="http://jekyllrb.com">Jekyll</a> ed utilizza il framework <a href="twitter.github.com/bootstrap">Bootstrap</a>. Questo sito &egrave; <strong>open source</strong>, il codice sorgente &egrave; disponibile su <a href="https://github.com/dartlang-italia/dartlang-italia.github.io">Github</a>.</p>
             <p>Le segnalazioni su incorrettezze o bug del sito possono essere inoltrate su <a href="https://github.com/dartlang-italia/dartlang-italia.github.io/issues">GitHub Issues</a>.</p>
             <p>Vuoi diventare uno dei nostri <a href="/staff.html">collaboratori?</a> Mandaci <a href="mailto:&#100;&#097;&#114;&#116;&#108;&#097;&#110;&#103;&#046;&#105;&#116;&#097;&#064;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;">un'email</a> o contattaci attraverso i <a href="/">social network</a>.</p>
-        <p>2013, <a href="http://www.claudiodangelis.com/about">Claudio d'Angelis</a>, <strong>Dartlang Italia</strong></p>
         </div>
     </div>
 </div>
