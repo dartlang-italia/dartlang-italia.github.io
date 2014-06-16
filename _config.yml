@@ -28,3 +28,5 @@ staff:
     Claudio d'Angelis:
         bio:
         url: http://claudiodangelis.com/about
+
+exclude: [articoli.md, articoli, css, feed.xml, risorse.md, staff.md, news.md, faq.md, doc.md]
